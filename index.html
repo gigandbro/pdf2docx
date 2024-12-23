@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF to DOCX Converter</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #FFA07A;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+      border: 2px solid #FFA07A;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .button {
+      background-color: #FFA07A;
+      color: #121212;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .button:hover {
+      background-color: #FF8C69;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    footer a {
+      color: #FFA07A;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .stats {
+      font-size: 16px;
+      margin-top: 10px;
+      color: #FFA07A;
+    }
+  </style>
+</head>
+<body>
+  <h1>PDF &lt;-&gt; DOCX Converter</h1>
+  <div class="container">
+    <input type="file" id="fileInput" accept=".pdf,.docx" />
+    <button class="button" onclick="convertFile()">Convert</button>
+    <a id="downloadLink" class="button" style="display: none;" download>Download Converted File</a>
+    <div class="stats" id="conversionStats">Files converted: 0</div>
+  </div>
+
+  <footer>
+    Made by <a href="https://github.com/gigandbro/" target="_blank">gig</a>
+  </footer>
+
+  <script>
+    let conversionCount = 0;
+
+    function convertFile() {
+      const input = document.getElementById('fileInput');
+      const downloadLink = document.getElementById('downloadLink');
+      const stats = document.getElementById('conversionStats');
+
+      if (input && input.files && input.files[0]) {
+        const file = input.files[0];
+        const fileName = file.name;
+        const fileExtension = fileName.split('.').pop().toLowerCase();
+
+        if (fileExtension === 'pdf') {
+          // Simulate PDF to DOCX conversion
+          downloadLink.href = URL.createObjectURL(new Blob([file], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }));
+          downloadLink.download = fileName.replace('.pdf', '.docx');
+        } else if (fileExtension === 'docx') {
+          // Simulate DOCX to PDF conversion
+          downloadLink.href = URL.createObjectURL(new Blob([file], { type: 'application/pdf' }));
+          downloadLink.download = fileName.replace('.docx', '.pdf');
+        } else {
+          alert('Please upload a valid PDF or DOCX file.');
+          return;
+        }
+
+        downloadLink.style.display = 'inline-block';
+
+        // Update conversion count
+        conversionCount++;
+        stats.textContent = `Files converted: ${conversionCount}`;
+      } else {
+        alert('Please upload a file first.');
+      }
+    }
+  </script>
+</body>
+</html>
